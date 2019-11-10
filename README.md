@@ -5,5 +5,6 @@
 
 ## 设计模式
 
-* [设计模式](设计模式/设计模式.md)
+* [单例模式](design_pattern/singleton_pattern.md)
+* [工厂模式](design_pattern/factory_pattern.md)
 
