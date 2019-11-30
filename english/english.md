@@ -17,6 +17,30 @@
 | Enumerating objects | 列举对象                          |
 | compression         | 压缩                              |
 
+### 注解关键字
+
+| 英文       | 释义 |
+| ---------- | ---- |
+| Target     | 目标 |
+| Retention  | 保留 |
+| Documented | 记录 |
+| Inherited  | 继承 |
+| Component  | 组件 |
+| Alias      | 别名 |
+|            |      |
+|            |      |
+|            |      |
+|            |      |
+|            |      |
+|            |      |
+|            |      |
+|            |      |
+|            |      |
+|            |      |
+|            |      |
+|            |      |
+|            |      |
+
 
 
 ## 字母缩写释义
