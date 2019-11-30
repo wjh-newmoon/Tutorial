@@ -2,7 +2,7 @@
 
 ### 1. pom文件
 
-	#### 	1. 父项目
+####	1. 父项目
 
 ~~~xml
 <parent>
@@ -93,17 +93,17 @@ public @interface SpringBootApplication {
 
 @**SpringBootConfiguration**： SpringBoot的配置类；
 
-​		标注在某个类上，表示该类为 Spring Boot 的配置类
+​		标注在哪个类上，那个类就是 Spring Boot 的配置类
 
 ​		@**Configration**：配置类上标注该注解
 
-​				配置类  对应  配置文件； 配置类也是容器中的一个组件  @Component
+​				配置类  对应  spring 或 springMVC 的配置文件； 配置类也是容器中的一个组件  @Component
 
 ​	
 
 @**EnableAutoConfiguration** ；开启自动配置功能
 
-​		以前我们需要配置的东西，Spring Boot 就会自动帮我们配置； 加了@**EnableAutoConfiguration** 这个注解，Spring Boot就会自动帮我们配置。
+​		以前我们需要配置的东西，加了@**EnableAutoConfiguration** 这个注解，Spring Boot 就会自动帮我们配置。
 
 ```java
 @AutoConfigurationPackage
@@ -118,3 +118,167 @@ public @interface EnableAutoConfiguration {
 ​		Spring 的底层注解 @Imort， 给容器导入一个组件；导入的组件由 {Registrar.class} 决定
 
 ==将主配置类（@SpringBootApplication标注的类）所在包及下面所有子包里面的所有组件扫描到Spring容器中；==
+
+@**Import({EnableAutoConfigurationImportSelector.class})**
+
+​		该注解决定给容器导入那些组件
+
+​		**EnableAutoConfigurationImportSelector**： 导入那些组件的选择器；
+
+​		将所有需要添加的组件以全类名的方式返回；这些组件会被导入到容器中
+
+​		会给容器导入一些自动配置类（xxxAutoConfiguration）；给容器导入这个场景所需要的组件，并配置好这些组件。
+
+![导入的自动配置类](M:\总结\Tutorial\java\spring\images\2019-11-30_151413.png)
+
+有了自动配置类，就不需要我们手动编写配置 注入组件的工作；
+
+SpringFactoriesLoader.loadFactoryNames( EnableAutoConfiguration.class,classLoader )
+
+==Spring Boot 在启动的时候从类路径下的 META-INF/spring.factories 中获取 EnableAutoConfiguration 指定的值，将这些值对应的类导入到容器中，自动配置类就生效了，不需要我们写配置了。==
+
+J2EE的整体整合解决方案和自动配置都在 spring-boot-autoconfigure-1.5.9.RELEASE.jar 包中
+
+
+
+
+
+## 二、配置文件
+
+### 1、配置文件
+
+SpringBoot 全局配置文件
+
+- application.properties
+- application.yml
+
+
+
+配置文件的作用：修改SpringBoot的默认配置
+
+YAML： YAML Ain't Markup Language
+
+标记语言：
+
+- 以前的配置文件大多是 xxx.xml 文件
+
+- YAML 以数据为中心，比json、xml更适合做配置文件
+
+- YAML
+
+  - ```yml
+    server:
+      port: 8081
+    ```
+
+- xml
+
+  - ```xml
+    <server>
+    	<port>8081</port>
+    </server>
+    ```
+
+### 2、YAML 语法
+
+#### 1、基本语法
+
+- K:(空格)V
+
+- 空格的缩进控制层级
+
+  （k，v都是大小写敏感）
+
+#### 2、值的写法
+
+##### 字面量：普通的值（数字，字符串，布尔值）
+
+​	k: v 直接写键值对
+
+​	字符串默认不用加双引号或单引号
+
+​	"": 双引号，会转义字符串中的特殊字符
+
+​	'': 单引号，不会转义字符串中的特殊字符
+
+
+
+##### 对象、Map、（属性和值）（键值对）
+
+​	在下一行写对象属性和值之间的关系
+
+```yml
+friends:
+	lastName: lsy
+	age: 20
+```
+
+行内写法
+
+```yml
+friends: {lastName: lsy,age: 20}
+```
+
+
+
+##### 数组（List，Set）
+
+用 - 表示数组中的每个元素
+
+~~~yml
+toys:
+  - car
+  - computer
+  - paper
+~~~
+
+行内写法
+
+```yml
+toys: [car,computer,paper]
+```
+
+
+
+
+
+#### 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
