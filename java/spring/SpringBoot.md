@@ -242,11 +242,107 @@ toys: [car,computer,paper]
 
 
 
-#### 
+### 3、配置文件值注入
+
+配置文件:
+
+```yml
+person:
+  name: zhangsan
+  age: 20
+  boss: false
+  birthday: 1997/12/12
+  maps: {k1: v1,k2: 12}
+  lists:
+    - lisi
+    - zhangsan
+  dog:
+    name: 达达
+    age: 3
+```
+
+javaBean:
+
+```java
+/**
+ * 将配置文件中的值映射到组件中
+ * @ConfigurationProperties: 告诉 SpringBoot 将本类中的值与配置文件中的值对应
+ *
+ * prefix = "person" : 配置文件中那个对应的值下面的属性与此对象的属性一一对应
+ *
+ * 需要加上 @Component 这个注解，表明这是一个注解，因为只有这个组件是容器中的组件，@ConfigurationProperties 这个注解才能生效
+ */
+@ConfigurationProperties(prefix = "person")
+@Component
+
+public class Person {
+
+    private String name;
+    private String age;
+    private Boolean boss;
+    private Date birthday;
+
+    private Map<String, Object> maps;
+    private List<Object> lists;
+    private Dog dog;
+```
 
 
 
+在pom.xml 文件中配置 **文件处理器**， 以后配置属性时就会有提示了。
 
+```xml
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-autoconfigure-processor</artifactId>
+	<optional>true</optional>
+</dependency>
+```
+
+#### 1、properties配置文件在idea中默认utf-8可能会乱码
+
+![properties文件乱码调整](M:\总结\Tutorial\java\spring\images\2019-12-01_173633.png)
+
+#### 2、 @Value获取值和@ConfigurationProperties获取值比较
+
+|                           | @ConfigurationProperties | @Value       |
+| ------------------------- | ------------------------ | ------------ |
+| 功能                      | 批量注入配置文件中的属性 | 一个一个指定 |
+| 松散绑定 (松散语法)       | 支持                     | 不支持       |
+| SpEL（spring 表达式语言） | 不支持                   | 支持         |
+| JSR303数据校验            | 支持                     | 不支持       |
+| 复杂类型封装              | 支持                     | 不支持       |
+
+配置文件yml还是properties 都能获取值
+
+==properties文件的优先级比yml文件高==
+
+使用场景：
+
+- 只在业务逻辑中获取一下配置文件中的某项值，使用@**Value**
+- 专门编写了一个javaBean来和配置文件进行映射，我们就直接使用@**ConfigurationProperties**
+
+#### 3、配置文件注入值数据校验
+
+```java
+@Component
+@ConfigurationProperties(prefix = "person")
+@Validated
+
+public class Person {
+
+    @Email
+    private String name;
+    private String age;
+    private Boolean boss;
+    private Date birthday;
+
+//    @Value("${person.maps}")
+    private Map<String, Object> maps;
+    private List<Object> lists;
+    private Dog dog;
+
+```
 
 
 
