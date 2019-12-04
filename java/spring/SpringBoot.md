@@ -346,6 +346,104 @@ public class Person {
 
 
 
+#### 4、@PropertySource & @ImportResource & @Bean
+
+ @**PropertySource**：加载指定的配置文件
+
+```java
+/**
+ * 将配置文件中的值映射到组件中
+ * @ConfigurationProperties: 告诉 SpringBoot 将本类中的值与配置文件中的值对应
+ *
+ * prefix = "person" : 配置文件中那个对应的值下面的属性与此对象的属性一一对应
+ *
+ * 需要加上 @Component 这个注解，表明该类是一个组件，因为只有这个组件是容器中的组件，@ConfigurationProperties 这个注解才能生效
+ *
+ * @ConfigurationProperties (prefix = "person") 默认从全局配置文件中获取值
+ */
+
+@Component
+@PropertySource(value = {"classpath:person.properties"})
+//@ConfigurationProperties(prefix = "person")
+@Validated
+```
+
+@**ImportResource**：导入Spring的配置文件，让配置文件生效
+
+  Spring Boot 里面没有Spring的配置文件，我们自己编写的配置文件，也不能自动识别。
+
+```java
+@ImportResource(locations = {"classpath:beans.xml"})
+导入spring的配置文件
+```
+
+
+
+配置文件：
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="HelloService" class="com.wjh.springboot.service.HelloService"></bean>
+</beans>
+```
+
+SpringBoot 推荐给容器添加组件的方式： 使用全注解
+
+1. 配置类@**Configuration**---->Spring配置文件
+2. 使用@**Bean**给容器中添加组件
+
+~~~java
+package com.wjh.springboot.config;
+
+import com.wjh.springboot.service.HelloService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class MyAppConfig {
+
+    //将方法的返回值添加到容器中，容器中这个组件的ID就是方法名
+    @Bean
+    public HelloService helloService() {
+        System.out.println("配置生效");
+        return new HelloService();
+    }
+}
+~~~
+
+### 4、配置文件占位符
+
+#### 1、随机数
+
+~~~java
+${random.value} ${random.int} ${random.long}
+${random.int(10)} ${random.int[1024, 65536]}
+~~~
+
+#### 2、占位符获取之前配置的值，如果没有可以用 ： 指定默认值
+
+~~~properties
+#配置person
+person.last-name=张三${random.uuid}
+person.age=${random.int}
+person.birthday=2017/12/15
+person.boss=false
+person.maps.k1=v1
+person.maps.k2=v2
+person.lists=a,b,c
+person.dog.name=${person.last-name}_dog
+person.dog.age=3
+~~~
+
+### 5、Profile
+
+
+
 
 
 
