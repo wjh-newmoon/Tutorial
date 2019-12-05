@@ -442,15 +442,91 @@ person.dog.age=3
 
 ### 5、Profile
 
+#### 1、多profile文件
+
+主配置文件还可以命名为 **application-{profile}.properties**
+
+不同环境对应不同的配置
+
+  - **开发**环境对应 application-**dev**.properties
+  - **生产**环境对应 application-**prod**.properties
+
+**默认**读取的配置文件是 application.properties
+
+#### 2、yml多文档块方式
+
+yml文件可以用 `---` 分割为多个文档块
+
+~~~yml
+server:
+  port: 8082
+spring:
+  profiles:
+    active: prod
+
+---
+server:
+  port: 8083
+spring:
+  profiles: dev
+
+
+---
+server:
+  port: 8084
+spring:
+  profiles: prod
+~~~
 
 
 
+#### 3、激活指定profile
+
+1. properties文件激活：
+
+~~~properties
+spring.profiles.active=dev
+~~~
+
+2. yml文件激活：
+
+~~~yml
+spring:
+  profiles:
+    active: prod
+~~~
+
+3. 命令行参数：
+
+`--spring.profiles.active=dev`
+
+- idea编辑器操作
+  - Edit Configuration -->  Application -->  Configuration  -->  Program arguments: `--spring.profiles.active=dev`
+- cmd命令行操作
+  - java -jar {jar包名} --spring.profiles.active=dev
+
+4. 虚拟机参数：
+
+VM options： `-Dspring.profiles.active=dev`
 
 
 
+### 6、配置文件加载位置
 
+spring boot 启动扫描配置文件优先级 (file: 项目路径，classpath: 类路径）
 
+- file: ./config/
+- file: ./
+- classpath: /config/
+- classpath: /
 
+所有配置文件都会被加载，高优先级会覆盖低优先级
+
+**互补配置**
+
+==也可以通过配置 **spring.config.location** 来改变默认配置==
+
+`java -jar spring-boot-02-config-0.0.1-SNAPSHOT.jar --spring.config.location=L:/application.properties`
 
 
 
