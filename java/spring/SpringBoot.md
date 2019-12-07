@@ -129,7 +129,7 @@ public @interface EnableAutoConfiguration {
 
 ​		会给容器导入一些自动配置类（xxxAutoConfiguration）；给容器导入这个场景所需要的组件，并配置好这些组件。
 
-![导入的自动配置类](\images\2019-11-30_151413.png)
+![导入的自动配置类](images/2019-11-30_151413.png)
 
 有了自动配置类，就不需要我们手动编写配置 注入组件的工作；
 
@@ -301,7 +301,7 @@ public class Person {
 
 #### 1、properties配置文件在idea中默认utf-8可能会乱码
 
-![properties文件乱码调整](\images\2019-12-01_173633.png)
+![properties文件乱码调整](images/2019-12-01_173633.png)
 
 #### 2、 @Value获取值和@ConfigurationProperties获取值比较
 
