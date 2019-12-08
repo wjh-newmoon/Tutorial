@@ -759,3 +759,39 @@ public class HttpEncodingAutoConfiguration {
 
 
 - 
+
+~~~java
+============================
+CONDITIONS EVALUATION REPORT
+============================
+
+
+Positive matches://(自动配置类启用的)
+-----------------
+
+   AopAutoConfiguration matched:
+      - @ConditionalOnProperty (spring.aop.auto=true) matched (OnPropertyCondition)
+          
+   AopAutoConfiguration.ClassProxyingConfiguration matched:
+      - @ConditionalOnMissingClass did not find unwanted class 'org.aspectj.weaver.Advice' (OnClassCondition)
+      - @ConditionalOnProperty (spring.aop.proxy-target-class=true) matched (OnPropertyCondition)
+   .
+   .
+   .
+          
+Negative matches://(自动配置类没有启用的)
+-----------------
+
+   ActiveMQAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'javax.jms.ConnectionFactory' (OnClassCondition)
+
+   AopAutoConfiguration.AspectJAutoProxyingConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.aspectj.weaver.Advice' (OnClassCondition)
+   .
+   .
+   .   
+          
+~~~
+
