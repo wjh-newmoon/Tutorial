@@ -16,40 +16,47 @@
 | navigate            | 导航                              |
 | Enumerating objects | 列举对象                          |
 | compression         | 压缩                              |
+| candidate           | 候选                              |
+|                     |                                   |
+|                     |                                   |
+|                     |                                   |
+|                     |                                   |
 
 ### 注解关键字
 
-| 英文       | 释义 |
-| ---------- | ---- |
-| Target     | 目标 |
-| Retention  | 保留 |
-| Documented | 记录 |
-| Inherited  | 继承 |
-| Component  | 组件 |
-| Alias      | 别名 |
-|            |      |
-|            |      |
-|            |      |
-|            |      |
-|            |      |
-|            |      |
-|            |      |
-|            |      |
-|            |      |
-|            |      |
-|            |      |
-|            |      |
-|            |      |
+| 英文        | 释义                 |
+| ----------- | -------------------- |
+| Target      | 目标                 |
+| Retention   | 保留                 |
+| Documented  | 记录                 |
+| Inherited   | 继承                 |
+| Component   | 组件                 |
+| Alias       | 别名                 |
+| Conditional | 条件                 |
+| Bean        | 给容器中添加一个组件 |
+|             |                      |
+|             |                      |
+|             |                      |
+|             |                      |
+|             |                      |
+|             |                      |
+|             |                      |
+|             |                      |
+|             |                      |
+|             |                      |
+|             |                      |
 
 
 
 ## 字母缩写释义
 
-**OCP**: (The Open Closed Principle)开放-封闭原则, 是说软件实体（类、模块、函数等等）应该可以扩展，但是不可修改。[ASD]
+| 缩写     | 释义                                                     |
+| -------- | -------------------------------------------------------- |
+| **OCP**  | (The Open Closed Principle)开放-封闭原则                 |
+| **JNDI** | (Java Naming and Directory Interface）Java命名和目录接口 |
+|          |                                                          |
 
-
-
-
+**OCP**:  (The Open Closed Principle)开放-封闭原则, 是说软件实体（类、模块、函数等等）应该可以扩展，但是不可修改。[ASD]
 
 
 
