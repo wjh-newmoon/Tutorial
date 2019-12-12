@@ -891,3 +891,70 @@ Negative matches://(自动配置类没有启用的)
           
 ~~~
 
+
+
+## 三、日志
+
+### 1、日志框架
+
+世面上的日志框架：
+
+JUL、JCL、Jboss-logging、logback、log4J、log4j2、slf4j---
+
+| 日志门面（日志的抽象层)                                      | 日志实现                                      |
+| ------------------------------------------------------------ | --------------------------------------------- |
+| ~~JCL（Jakarta Commons Logging)~~     SLF4J(Simple Logging Facade for Java)     ~~Jboss-logging~~ | Log4j  Logback JUL(java.util.logging)  log4j2 |
+
+JCL：apache 公司写的一个日志门面，最后一次更新在2014年。
+
+SLF4J 、log4j、logback: 是同一个作者
+
+log4j2: apache公司写的
+
+
+
+SpringBoot：底层是Spring框架，Spring框架默认使用 JCL；
+
+**==SpringBoot选用的是 SLF4J + Logback==**
+
+
+
+### 2、SLF4j使用
+
+#### 1、在系统中使用SLF4j
+
+开发的时候，日志记录方法的调用，不应该直接调用实现方法，而应该调用抽象层里面的方法；
+
+给系统里导入 slf4j 的 jar 和 Logback 的实现jar
+
+~~~java
+import org.slf4j.Logger;
+  import org.slf4j.LoggerFactory;
+ 
+ public class Wombat {
+  
+   final Logger logger = LoggerFactory.getLogger(Wombat.class);
+   Integer t;
+   Integer oldT;
+
+   public void setTemperature(Integer temperature) {
+    
+     oldT = t;        
+     t = temperature;
+
+     logger.debug("Temperature set to {}. Old temperature was {}.", t, oldT);
+
+     if(temperature.intValue() > 50) {
+       logger.info("Temperature has risen above 50 degrees.");
+     }
+   }
+ } 
+~~~
+
+
+
+图示：
+
+![sl4j图示](images/concrete-bindings.png)
+
+每一个日志框架都有自己的配置文件，使用 slf4j 后，配置文件还是做成 日志实现框架本身的配置文件；
