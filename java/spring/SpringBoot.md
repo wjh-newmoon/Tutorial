@@ -975,3 +975,21 @@ import org.slf4j.Logger;
 
 3、我们导入slf4j其他的实现
 
+
+
+### 四、Web开发
+
+#### Springboot对静态资源的映射规则
+
+静态资源文件夹
+
+~~~java
+"classpath:/META-INF/resources/", 
+"classpath:/resources/", 
+"classpath:/static/",
+"classpath:/public/"
+ "/":当前项目的根路径
+~~~
+
+
+
