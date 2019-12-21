@@ -993,3 +993,17 @@ import org.slf4j.Logger;
 
 
 
+#### RestfulCRUD
+
+国际化：
+
+1）、编写国际化配置文件
+
+2）、app.properties配置
+
+~~~properties
+spring.messages.basename=i18n/login
+~~~
+
+
+
