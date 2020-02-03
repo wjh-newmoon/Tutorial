@@ -5,8 +5,8 @@
 
 **动漫**
 
-- <span style="background:red">《动物狂想曲》</span>
-- <span style="background:red">《非枪人生》</span>
+- <span style="background:lightgreen">《动物狂想曲》</span>
+- <span style="background:lightgreen">《非枪人生》</span>
 - <span style="background:red">《歌舞伎町夏洛克》</span>
 - <span style="background:lightgreen">《盾之勇者成名录》</span>  12.4
 
