@@ -929,7 +929,7 @@ SpringBoot：底层是Spring框架，Spring框架默认使用 JCL；
 
 ~~~java
 import org.slf4j.Logger;
-  import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory;
  
  public class Wombat {
   
@@ -977,7 +977,7 @@ import org.slf4j.Logger;
 
 
 
-### 四、Web开发
+## 四、Web开发
 
 #### Springboot对静态资源的映射规则
 
@@ -1003,6 +1003,230 @@ import org.slf4j.Logger;
 
 ~~~properties
 spring.messages.basename=i18n/login
+~~~
+
+
+
+## 五、Docker
+
+### 1、简介
+
+Docker是一个开源的应用容器引擎
+
+Docker支持将软件编译成一个镜像；然后在镜像中配置好软件的各种参数，将镜像发布出去，其他使用者可以直接使用这个镜像；
+
+运行中的这个镜像成为容器，容器的启动是非常快的
+
+### 2、Docker核心概念
+
+Docker主机（hosts）：安装Docker客户端的机器（Docker安装在操作系统上）
+
+Docker客户端（Client）：操作Docker容器
+
+Docker容器（Container）：独立运行的一个或一组应用，镜像启动后的实例称为一个容器
+
+Docker镜像（Images）：打包好的一组容器，保存在仓库中
+
+Dokcer仓库（ Registry）：存放Docker镜像的仓库
+
+### 3、安装Docker
+
+#### 1）设置虚拟机网络
+
+1、桥接网络 === 网卡驱动（本机连的无线网就选无线网的驱动；网线就选网线的驱动） == 接入网线（C）选中
+
+2、设置好后重启虚拟机的网络
+
+~~~bash
+service network restart 
+~~~
+
+3、查看linux(centos7)的IP地址
+
+~~~bash
+ip addr
+~~~
+
+#### 2）在虚拟机中安装docker
+
+#### 1、安装需要的软件包
+
+安装yum-utils，它提供一个yum-config-manager单元，同时安装的device-mapper-persistent-data和lvm2用于储存设备映射（devicemapper）必须的两个软件包
+
+~~~shell
+yum install -y yum-utils device-mapper-persistent lvm2
+~~~
+
+#### 2、设置yum源
+
+yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo （阿里云仓库）
+
+~~~shell
+yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+~~~
+
+#### 3、安装docker
+
+~~~shell
+# 查看所有仓库中所有docker版本，选择稳定版本安装
+yum list docker-ce --showduplicates | sort -r
+
+# 安装docker
+yum install docker-ce
+~~~
+
+> ==docker-ce== 社区版本
+>
+> ==docker-ee==  企业版
+
+#### 4、启动Docker
+
+~~~shell
+ systemctl start docker
+~~~
+
+#### 5、设置开机启动
+
+~~~shell
+systemctl enable docker
+~~~
+
+
+
+~~~shell
+# 查看centos内核版本 必须>3.1.0
+[root@localhost ~]# uname -r
+3.10.0-327.el7.x86_64
+
+# 启动docker
+[root@localhost ~]# systemctl start docker
+Job for docker.service failed because the control process exited with error code. See "systemctl status docker.service" and "journalctl -xe" for details.（启动失败）
+[root@localhost ~]# docker -v
+Docker version 1.13.1, build 4ef4b30/1.13.1
+
+# 设置开机启动
+systemctl enable docker
+[root@localhost ~]# systemctl enable docker
+Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.
+
+
+{
+  "registry-mirrors": [
+  "http://hub-mirror.c.163.com",
+  "https://kfwkfulq.mirror.aliyuncs.com",
+  "https://2lqq34jg.mirror.aliyuncs.com",
+  "https://pee6w651.mirror.aliyuncs.com",
+  "http://hub-mirror.c.163.com",
+  "https://docker.mirrors.ustc.edu.cn",
+   "https://registry.docker-cn.com"
+  ]
+  
+}
+
+~~~
+
+#### 卸载docker
+
+1）查询安装过的包
+
+~~~shell
+yum list installed | grep docker
+~~~
+
+2）删除安装的软件包
+
+~~~shell
+yum -y remove docker.x86_64
+~~~
+
+#### 重启docker
+
+~~~shell
+service docker restart
+~~~
+
+#### 更换软件源
+
+如果你之前安装过 docker，请先删掉
+
+```shell
+sudo yum remove docker docker-common docker-selinux docker-engine
+```
+
+安装一些依赖
+
+```shell
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+```
+
+根据你的发行版下载repo文件: CentOS/RHEL Fedora
+
+```shell
+wget -O /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/centos/docker-ce.repo
+```
+
+把软件仓库地址替换为 TUNA:
+
+```shell
+sudo sed -i 's+download.docker.com+mirrors.tuna.tsinghua.edu.cn/docker-ce+' /etc/yum.repos.d/docker-ce.repo
+```
+
+最后安装:
+
+```shell
+sudo yum makecache fast
+sudo yum install docker-ce
+```
+
+
+
+#### Docker 命令
+
+~~~shell
+# 查看docker本地镜像
+docker iamges
+
+# 删除本地镜像 (image id)
+docker rmi c4f186b9e038 
+~~~
+
+### 4、运行Docker
+
+~~~shell
+# --name 后跟自定义的名字 
+# -d 后台运行
+# : 后跟tag
+docker run --name mytomcat -d tomcat:latest
+
+# 停止容器 stop 后可跟name 或 dockerid
+docker stop mytomcat
+
+# 查看运行和停止的容器
+docker ps -a
+
+# 查看停止的容器
+docker ps
+
+# -p 端口映射  虚拟机端口:docker端口
+docker run -d -p 8080:8080 tomcat
+
+# 进入正在运行的容器内
+docker exec -it f88154d8c79f /bin/bash
+
+# 查看容器启动日志 容器id
+docker logs 882242d19b5e
+
+# 启动docker内的 mysql -e 指定参数
+docker run --name mysql01 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7
+
+# 增加端口映射
+docker run -p 3306:3306 --name mysql02 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7
+~~~
+
+#### 防火墙相关命令
+
+~~~shell
+service firewalld status
 ~~~
 
 
