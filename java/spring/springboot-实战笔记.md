@@ -227,7 +227,7 @@ logback-spring.xml
 
 #### @Transactional
 
-单元测试时，用这个注解，数据库的操作会完全回滚
+单元测试时，用这个注解，数据库的操作会完全回滚，数据库里不会有多余的测试数据
 
 #### @Data
 
@@ -243,6 +243,14 @@ logback-spring.xml
 #### @DynamicUpdate
 
 实体类中，时间自动更新
+
+#### @RunWith(SpringRunner.class)
+
+测试用的注解之一，另一个是 @SpringBootTest
+
+#### @Autowired
+
+自动装配注解
 
 #### 数据库相关
 
@@ -321,4 +329,69 @@ public class ProductCategoryRepositoryTest {
 }
 
 ~~~
+
+#### JPA错误
+
+1、**No identifier specified for entity:**
+
+此错误为实体类id错误：
+
+- 原因1：可能没有加**@id**注解
+- 原因2：引错了包 应该是 **import javax.persistence.Id;**
+
+2、**Not a managed type**
+
+JPA实体类没有扫描到：
+
+- 实体类没有加上 **@Entity** 注解
+
+#### 超卖
+
+- 卖出的东西超出了库存总量
+
+#### BeanUtils.copyProperties();
+
+- ```
+  //前者拷贝到后者中，值会覆盖
+  BeanUtils.copyProperties(productInfo, orderDetail);
+  ```
+
+#### Gson
+
+json格式转换工具
+
+```java
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+//json格式数据转换为List
+Gson gson = new Gson();
+List<OrderDetail> orderDetailList = new ArrayList<OrderDetail>();
+orderDetailList = gson.fromJson(orderForm.getItems(),        new TypeToken<List<OrderDetail>>(){}.getType());
+```
+
+将java 对象转换为json格式 ( JsonUtil.toJson(object) )
+
+~~~java
+
+public static String toJson(Object object) {
+    GsonBuilder gsonBuilder = new GsonBuilder();
+    gsonBuilder.setPrettyPrinting();
+    Gson gson = gsonBuilder.create();
+    return gson.toJson(object);
+}
+
+~~~
+
+
+
+#### Jackson
+
+前端返回的数据中，若有值为空则不返回,可在**application.yml**配置文件中配置如下
+
+```yml
+spring:
+  jackson:  
+    default-property-inclusion: non_null
+```
 
